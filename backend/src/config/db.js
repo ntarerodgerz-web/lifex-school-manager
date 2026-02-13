@@ -2,20 +2,31 @@ const { Pool } = require('pg');
 const env = require('./env');
 const logger = require('../utils/logger');
 
-const pool = new Pool({
-  host: env.db.host,
-  port: env.db.port,
-  database: env.db.database,
-  user: env.db.user,
-  password: env.db.password,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 5000,
-});
+// Support a single DATABASE_URL (Neon, Railway, Supabase, etc.)
+// or individual DB_HOST / DB_NAME / DB_USER / DB_PASSWORD vars
+const poolConfig = env.databaseUrl
+  ? {
+      connectionString: env.databaseUrl,
+      ssl: { rejectUnauthorized: false }, // Required for Neon and most cloud providers
+      max: 10,                            // Neon free tier has connection limits
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 10000,
+    }
+  : {
+      host: env.db.host,
+      port: env.db.port,
+      database: env.db.database,
+      user: env.db.user,
+      password: env.db.password,
+      max: 20,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
+    };
+
+const pool = new Pool(poolConfig);
 
 pool.on('error', (err) => {
   logger.error('Unexpected database pool error', err);
-  process.exit(-1);
 });
 
 /**
@@ -48,4 +59,3 @@ const getClient = async () => {
 };
 
 module.exports = { query, getClient, pool };
-
