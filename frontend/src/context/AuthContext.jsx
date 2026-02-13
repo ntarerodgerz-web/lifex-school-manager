@@ -55,22 +55,23 @@ export const AuthProvider = ({ children }) => {
         setUser(restoredUser);
 
         // Refresh user data from server to keep school_name, branding etc. up to date
-        api.get('/auth/me')
-          .then(({ data }) => {
-            const fresh = data.data;
-            if (fresh) {
-              setUser((prev) => {
-                const merged = { ...prev, ...fresh };
-                localStorage.setItem('user', JSON.stringify(merged));
-                return merged;
-              });
-              // Apply branding from fresh server data
-              if (fresh.primary_color || fresh.secondary_color || fresh.font_family || fresh.font_style) {
-                saveAndApplyTheme(fresh.primary_color, fresh.secondary_color, fresh.font_family, fresh.font_style);
-              }
+        try {
+          const { data } = await api.get('/auth/me');
+          const fresh = data.data;
+          if (fresh) {
+            const merged = { ...restoredUser, ...fresh };
+            localStorage.setItem('user', JSON.stringify(merged));
+            setUser(merged);
+            if (fresh.primary_color || fresh.secondary_color || fresh.font_family || fresh.font_style) {
+              saveAndApplyTheme(fresh.primary_color, fresh.secondary_color, fresh.font_family, fresh.font_style);
             }
-          })
-          .catch(() => { /* ignore – stale data is still usable offline */ });
+          }
+        } catch {
+          // Token expired / invalid — clear stale session and force login
+          if (!localStorage.getItem('access_token')) {
+            setUser(null);
+          }
+        }
       }
 
       setLoading(false);

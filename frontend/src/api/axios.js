@@ -86,8 +86,13 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${data.data.access_token}`;
         return api(originalRequest);
       } catch (refreshError) {
-        localStorage.clear();
-        window.location.href = '/login';
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('user');
+        // Only redirect if not already on the login page
+        if (!window.location.pathname.includes('/login')) {
+          window.location.replace('/login');
+        }
         return Promise.reject(refreshError);
       }
     }
