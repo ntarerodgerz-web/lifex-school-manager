@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="50%" style="stop-color:#4f46e5"/>
+      <stop offset="100%" style="stop-color:#3730a3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="500" fill="url(#bg)" rx="0"/>
+  <text x="512" y="180" text-anchor="middle" fill="white" font-family="Arial,Helvetica,sans-serif" font-weight="bold" font-size="72">School Manager</text>
+  <text x="512" y="260" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial,Helvetica,sans-serif" font-weight="400" font-size="28">Multi-School Nursery &amp; Primary School Management</text>
+  <text x="512" y="340" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="Arial,Helvetica,sans-serif" font-weight="300" font-size="20">Pupils • Teachers • Parents • Attendance • Fees • Reports</text>
+  <text x="512" y="440" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="Arial,Helvetica,sans-serif" font-weight="300" font-size="16">Works Offline • Multi-Currency • Real-Time Sync</text>
+</svg>

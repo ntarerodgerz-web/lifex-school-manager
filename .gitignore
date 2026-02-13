@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+backend/.env
+
+# Build output (rebuilt on server)
+frontend/dist/
+
+# Android native project (not needed on server)
+frontend/android/
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads (user data — backed up separately)
+backend/uploads/avatars/*
+backend/uploads/badges/*
+backend/uploads/photos/*
+!backend/uploads/avatars/.gitkeep
+!backend/uploads/badges/.gitkeep
+!backend/uploads/photos/.gitkeep
+
