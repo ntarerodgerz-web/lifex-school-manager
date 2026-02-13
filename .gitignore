@@ -1,14 +1,11 @@
 # Dependencies
 node_modules/
 
-# Environment files
+# Environment (local dev only — .env.production is tracked for deployment)
 .env
 backend/.env
 
-# Build output — kept in repo for Hostinger deployment
-# frontend/dist/
-
-# Android native project (not needed on server)
+# Android native project
 frontend/android/
 
 # Logs
@@ -19,12 +16,10 @@ logs/
 .DS_Store
 Thumbs.db
 
-# Uploads (user data — backed up separately)
+# User uploads (data — not code)
 backend/uploads/avatars/*
 backend/uploads/badges/*
 backend/uploads/photos/*
 !backend/uploads/avatars/.gitkeep
 !backend/uploads/badges/.gitkeep
 !backend/uploads/photos/.gitkeep
-
-# .env.production is tracked for Hostinger deployment (repo is private)

@@ -1,5 +1,2 @@
 node_modules/
-# dist/ — kept in repo for Hostinger deployment
 .env
-*.log
-
