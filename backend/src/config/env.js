@@ -2,14 +2,21 @@ const dotenv = require('dotenv');
 const path = require('path');
 const fs = require('fs');
 
-// Load .env first (local dev). If not found, fall back to .env.production (Hostinger)
-const devEnvPath = path.resolve(__dirname, '../../.env');
-const prodEnvPath = path.resolve(__dirname, '../../.env.production');
+// Load environment variables from files.
+// Priority: .env (local dev) → .env.production (Hostinger deployment)
+// Hostinger env vars set in UI are already in process.env and won't be overridden by dotenv.
+const envPaths = [
+  path.resolve(__dirname, '../../.env'),              // backend/.env (local dev)
+  path.resolve(__dirname, '../../.env.production'),   // backend/.env.production (production)
+  path.resolve(process.cwd(), '.env'),                // CWD/.env
+  path.resolve(process.cwd(), '.env.production'),     // CWD/.env.production
+];
 
-if (fs.existsSync(devEnvPath)) {
-  dotenv.config({ path: devEnvPath });
-} else if (fs.existsSync(prodEnvPath)) {
-  dotenv.config({ path: prodEnvPath });
+for (const envPath of envPaths) {
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    break;
+  }
 }
 
 module.exports = {

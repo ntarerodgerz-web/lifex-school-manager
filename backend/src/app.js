@@ -62,7 +62,17 @@ app.use('/api/v1/external', require('./modules/apikeys/externalRoutes'));
 // Serve frontend in production
 // ──────────────────────────────────────────────
 if (env.nodeEnv === 'production') {
-  const frontendPath = path.resolve(__dirname, '../../frontend/dist');
+  // Try multiple possible frontend locations (handles different hosting setups)
+  const possiblePaths = [
+    path.resolve(__dirname, '../../frontend/dist'),   // Hostinger (root dir = backend)
+    path.resolve(__dirname, '../frontend/dist'),       // Fallback
+    path.resolve(process.cwd(), '../frontend/dist'),   // Relative to CWD
+    path.resolve(process.cwd(), 'frontend/dist'),      // Root CWD
+  ];
+
+  const fs = require('fs');
+  const frontendPath = possiblePaths.find(p => fs.existsSync(path.join(p, 'index.html'))) || possiblePaths[0];
+
   app.use(express.static(frontendPath));
 
   // All non-API routes → React app (SPA client-side routing)
@@ -70,7 +80,12 @@ if (env.nodeEnv === 'production') {
     if (req.originalUrl.startsWith('/api/') || req.originalUrl.startsWith('/uploads/')) {
       return next();
     }
-    res.sendFile(path.join(frontendPath, 'index.html'));
+    const indexPath = path.join(frontendPath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      res.status(503).json({ success: false, message: 'Frontend not found. Searched: ' + possiblePaths.join(', ') });
+    }
   });
 }
 

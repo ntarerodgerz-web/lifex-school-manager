@@ -4,8 +4,12 @@ const logger = require('./utils/logger');
 const { pool } = require('./config/db');
 
 const startServer = async () => {
+  logger.info(`Starting LIFEX School Manager...`);
+  logger.info(`Node env: ${env.nodeEnv}`);
+  logger.info(`Port: ${env.port}`);
+  logger.info(`Database: ${env.databaseUrl ? 'DATABASE_URL (cloud)' : `${env.db.host}:${env.db.port}/${env.db.database}`}`);
+
   try {
-    // Test database connection
     await pool.query('SELECT 1');
     logger.info('Database connected successfully');
   } catch (error) {
@@ -32,4 +36,3 @@ process.on('SIGINT', async () => {
 });
 
 startServer();
-
