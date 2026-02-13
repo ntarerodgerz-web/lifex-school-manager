@@ -1,0 +1,14 @@
+{
+  "name": "lifex-school-manager",
+  "version": "1.0.0",
+  "description": "LIFEX School Manager - Full Stack Application",
+  "main": "app.js",
+  "scripts": {
+    "start": "NODE_ENV=production node app.js",
+    "postinstall": "cd backend && npm install --production"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+
