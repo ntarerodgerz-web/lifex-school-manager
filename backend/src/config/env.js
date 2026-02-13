@@ -2,14 +2,14 @@ const dotenv = require('dotenv');
 const path = require('path');
 const fs = require('fs');
 
-// Load .env.production first (Hostinger), fall back to .env (local dev)
-const prodEnvPath = path.resolve(__dirname, '../../.env.production');
+// Load .env first (local dev). If not found, fall back to .env.production (Hostinger)
 const devEnvPath = path.resolve(__dirname, '../../.env');
+const prodEnvPath = path.resolve(__dirname, '../../.env.production');
 
-if (fs.existsSync(prodEnvPath)) {
-  dotenv.config({ path: prodEnvPath });
-} else {
+if (fs.existsSync(devEnvPath)) {
   dotenv.config({ path: devEnvPath });
+} else if (fs.existsSync(prodEnvPath)) {
+  dotenv.config({ path: prodEnvPath });
 }
 
 module.exports = {

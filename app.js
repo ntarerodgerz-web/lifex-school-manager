@@ -6,14 +6,14 @@
 const path = require('path');
 const fs = require('fs');
 
-// Load .env.production first (for Hostinger), fall back to .env (for local dev)
-const prodEnvPath = path.resolve(__dirname, 'backend', '.env.production');
+// Load .env first (local dev). If not found, fall back to .env.production (Hostinger)
 const devEnvPath = path.resolve(__dirname, 'backend', '.env');
+const prodEnvPath = path.resolve(__dirname, 'backend', '.env.production');
 
-if (fs.existsSync(prodEnvPath)) {
-  require('dotenv').config({ path: prodEnvPath });
-} else {
+if (fs.existsSync(devEnvPath)) {
   require('dotenv').config({ path: devEnvPath });
+} else if (fs.existsSync(prodEnvPath)) {
+  require('dotenv').config({ path: prodEnvPath });
 }
 
 const app = require('./backend/src/app');
