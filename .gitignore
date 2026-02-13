@@ -5,8 +5,8 @@ node_modules/
 .env
 backend/.env
 
-# Build output (rebuilt on server)
-frontend/dist/
+# Build output — kept in repo for Hostinger deployment
+# frontend/dist/
 
 # Android native project (not needed on server)
 frontend/android/
