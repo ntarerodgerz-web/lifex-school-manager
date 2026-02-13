@@ -27,5 +27,4 @@ backend/uploads/photos/*
 !backend/uploads/badges/.gitkeep
 !backend/uploads/photos/.gitkeep
 
-.env.production
-backend/.env.production
+# .env.production is tracked for Hostinger deployment (repo is private)

@@ -1,7 +1,16 @@
 const dotenv = require('dotenv');
 const path = require('path');
+const fs = require('fs');
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+// Load .env.production first (Hostinger), fall back to .env (local dev)
+const prodEnvPath = path.resolve(__dirname, '../../.env.production');
+const devEnvPath = path.resolve(__dirname, '../../.env');
+
+if (fs.existsSync(prodEnvPath)) {
+  dotenv.config({ path: prodEnvPath });
+} else {
+  dotenv.config({ path: devEnvPath });
+}
 
 module.exports = {
   port: parseInt(process.env.PORT, 10) || 5000,
