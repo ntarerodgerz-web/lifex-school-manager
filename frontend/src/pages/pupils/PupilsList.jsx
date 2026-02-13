@@ -11,7 +11,7 @@ import {
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:5000' : '');
 
 /** Load an image URL as a data URL for embedding in PDF */
 const loadImageAsDataUrl = async (url) => {

@@ -6,7 +6,7 @@ import { HiOutlineMenu, HiOutlineBell, HiOutlineLogout, HiOutlineUser, HiOutline
 import { getPendingSyncCount } from '../utils/offlineDb';
 import { onSyncChange, processQueue, setupAutoSync } from '../utils/syncManager';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:5000' : '');
 
 /** Play a short beep sound using Web Audio API */
 const playNotificationBeep = () => {

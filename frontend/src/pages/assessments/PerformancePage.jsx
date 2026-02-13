@@ -12,7 +12,7 @@ import {
 } from 'react-icons/hi';
 
 const TERMS = ['Term 1', 'Term 2', 'Term 3'];
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:5000' : '');
 
 const gradeFromScore = (score) => {
   if (score >= 80) return 'D1';

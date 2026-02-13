@@ -18,7 +18,7 @@ import {
   HiOutlinePrinter,
 } from 'react-icons/hi';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:5000' : '');
 
 /* ─── Reusable Dropdown Button ─── */
 const DropdownButton = ({ label, icon: Icon, items, disabled, color = 'bg-primary-500 hover:bg-primary-600 focus:ring-primary-400' }) => {

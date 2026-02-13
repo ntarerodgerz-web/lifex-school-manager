@@ -70,8 +70,12 @@ api.interceptors.response.use(
 
       const refreshToken = localStorage.getItem('refresh_token');
       if (!refreshToken) {
-        localStorage.clear();
-        window.location.href = '/login';
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('user');
+        if (!window.location.pathname.includes('/login')) {
+          window.location.replace('/login');
+        }
         return Promise.reject(error);
       }
 

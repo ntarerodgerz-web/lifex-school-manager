@@ -12,7 +12,7 @@ import {
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:5000' : '');
 
 const emptyForm = { first_name: '', last_name: '', email: '', phone: '', occupation: '', address: '', relationship: 'Parent' };
 

@@ -16,7 +16,7 @@ import {
   generatePalette, hexToRgbString,
 } from '../../utils/themeUtils';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:5000' : '');
 
 /* ─── Small colour swatch ─── */
 const Swatch = ({ color, size = 'w-6 h-6', className = '' }) => (
