@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
+const fs = require('fs');
 const env = require('./config/env');
 const errorHandler = require('./middlewares/errorHandler');
 
@@ -62,7 +63,15 @@ app.use('/api/v1/external', require('./modules/apikeys/externalRoutes'));
 // Serve frontend in production
 // ──────────────────────────────────────────────
 if (env.nodeEnv === 'production') {
-  const frontendPath = path.resolve(__dirname, '../../frontend/dist');
+  // Try multiple possible frontend dist locations:
+  // 1. Local dev structure: backend/src/../../frontend/dist
+  // 2. Hostinger structure: public_html/src/../frontend/dist
+  const possiblePaths = [
+    path.resolve(__dirname, '../../frontend/dist'),
+    path.resolve(__dirname, '../frontend/dist'),
+  ];
+  const frontendPath = possiblePaths.find(p => fs.existsSync(path.join(p, 'index.html'))) || possiblePaths[0];
+
   app.use(express.static(frontendPath));
 
   // All non-API routes → React app (SPA client-side routing)
@@ -70,7 +79,11 @@ if (env.nodeEnv === 'production') {
     if (req.originalUrl.startsWith('/api/') || req.originalUrl.startsWith('/uploads/')) {
       return next();
     }
-    res.sendFile(path.join(frontendPath, 'index.html'));
+    const indexFile = path.join(frontendPath, 'index.html');
+    if (fs.existsSync(indexFile)) {
+      return res.sendFile(indexFile);
+    }
+    res.status(404).json({ success: false, message: 'Frontend not found. Ensure frontend/dist/ exists.' });
   });
 }
 
